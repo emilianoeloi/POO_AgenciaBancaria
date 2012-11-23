@@ -2,8 +2,8 @@ package SegSistemaBancario;
 
 public class Poupanca extends Conta{
 
-	private int quantidadeConsultas;
 	private static float TARIFA_CONSULTA = 1.10f;
+	private int quantidadeConsultas;
 	private static int QTDE_MAX_CONSULTAS = 2;
 	
 	public Poupanca (int numero, String proprietario, float saldo){
@@ -11,23 +11,19 @@ public class Poupanca extends Conta{
 	}
 	
 	public float getSaldo(){
-		
-		if (quantidadeConsultas < 2){
-			quantidadeConsultas++;
-			return super.getSaldo();
-		} else {
-			if (super.getSaldo() >= TARIFA_CONSULTA){
-				super.setSaldo(super.getSaldo() - TARIFA_CONSULTA);
-				 return super.getSaldo();
-			 } 
+		if(super.deveCobrarTarifa()){
+			if(super.getSaldo() < TARIFA_CONSULTA)
+				throw new ExcecaoSaldoInsuficiente("Você não possui saldo suficiente para consulta do saldo, e já ultrapassou o limite gratuito por mês.");
+			super.sacar(TARIFA_CONSULTA);
 		}
-		
-		throw new ExcecaoSaldoInsuficiente("Você não possui saldo suficiente para consulta do saldo, e já ultrapassou o limite gratuito por mês.");
-		
+		this.quantidadeConsultas++;
+		this.setCobrarTarifa(quantidadeConsultas >= QTDE_MAX_CONSULTAS);
+		return super.getSaldo();
 	}
 
 	public void reajustar (float taxa){
-		super.depositar(super.getSaldo() * taxa / 100); //confirmar calculo.
+		
+		super.depositar(super.getSaldo() * taxa / 100);
 	}
 	
 	public void sacar (float saque){

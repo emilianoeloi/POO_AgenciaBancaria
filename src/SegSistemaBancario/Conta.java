@@ -1,26 +1,20 @@
 package SegSistemaBancario;
 import java.text.DecimalFormat;
-
 public abstract class Conta {
-
-	DecimalFormat formatador = new DecimalFormat ("R$ #,##0.##");
 	
 	public static final byte POUPANCA = 1;
 	public static final byte CORRENTE = 2;
 	public static final byte ESPECIAL = 3;
+	private int              numero;
+	private String           proprietario;
+	private float            saldo;
+	private byte             tipo;
+	private boolean          cobrarTarifa;
+	DecimalFormat            formatador = new DecimalFormat ("R$ #,##0.##");
 	
-	private byte tipo;
-	private int numero;
-	private String nomeProprietario;
-	private float saldo;
-	
-	private boolean cobrarTarifa;
-	
-	
-	
-	public Conta(int numero, String nomeProprietario, float saldo, byte tipo){
+	public Conta(int numero, String proprietario, float saldo, byte tipo){
 		this.numero = numero;
-		this.nomeProprietario = nomeProprietario;
+		this.proprietario = proprietario;
 		this.saldo = saldo;
 		this.tipo = tipo;
 				
@@ -41,7 +35,7 @@ public abstract class Conta {
 	}
 	
 	public String getProprietario(){
-		return this.nomeProprietario;
+		return this.proprietario;
 	}
 	
 	public float getSaldo(){
@@ -54,10 +48,22 @@ public abstract class Conta {
 	}
 	
 	public String listarDados(){
-		return "Numero: "+this.numero+"\n"+
-				"Proprietário: "+this.nomeProprietario+"\n"+
-				"Saldo: "+formatador.format(this.saldo)+"\n"+
-				"Tipo: "+this.tipo;
+		
+		StringBuilder dados = new StringBuilder();
+		
+		dados.append("Número: ");
+		dados.append(this.numero);
+		dados.append("\n");
+		dados.append("Proprietário: ");
+		dados.append(this.proprietario);
+		dados.append("\n");
+		dados.append("Saldo: ");
+		dados.append(formatador.format(this.saldo));
+		dados.append("\n");
+		dados.append("Tipo: ");
+		dados.append(this.tipo);
+		
+		return dados.toString();
 	}
 	
 	public void sacar (float valor){
@@ -80,8 +86,7 @@ public abstract class Conta {
 		this.tipo = tipo;
 	}
 	
-	@SuppressWarnings("unused")
-	private static String tipoContaToString (int tipo){ //confirmar com o Pablo se o metodo est� correto
+	private static String tipoContaToString (byte tipo){ 
 		switch(tipo){
 			case 1:
 				return "Poupança";
@@ -90,7 +95,7 @@ public abstract class Conta {
 			case 3:
 				return "Especial";
 			default:
-				throw new ExcecaoContaExistente("A conta não existe");
+				return "Tipo de Conta Padrão";
 		}
 	}
 	
