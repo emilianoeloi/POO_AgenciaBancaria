@@ -9,15 +9,13 @@ public class Especial extends Corrente {
 	private static final float TAXA_JUROS = 8.00f;
 	private float valorEmprestado;
 	
-	public Especial (int numero, String proprietario, float saldo){
-		super (numero, proprietario, saldo, ESPECIAL);
-		this.valorEmprestado = 0;
-		
+	public Especial (int numero, String proprietario, float saldo, float limite){
+		super(numero, proprietario, saldo);
+		super.setTipo(ESPECIAL);
+		this.limite = (limite < 0) ? LIMITE_PADRAO : limite;
+		super.tarifaManutencao = 20.00f;
 	}
 	
-	
-	public void cobrarJuros(){
-	}
 	
 	public void sacar(float saque){
 		if(super.getSaldo()+LIMITE_PADRAO < saque)
@@ -31,12 +29,25 @@ public class Especial extends Corrente {
 		}
 	}
 	
-	public float getSaldo(){
-		return this.getSaldo();
+	public void cobrarJuros(){
+		super.setSaldo(this.getSaldo() - (valorEmprestado * TAXA_JUROS / 100));
 	}
 	
 	public String listarDados(){
-		return super.listarDados();
+		StringBuilder dados = new StringBuilder();
+		
+		dados.append(super.listarDados());
+		dados.append("\n");
+		dados.append("Juros cobrados: ");
+		dados.append(formatador.format(this.jurosCobrados));
+		dados.append("\n");
+		dados.append("Limite de credito: ");
+		dados.append(formatador.format(this.limite));
+		dados.append("\n");
+		dados.append("Valor emprestado: ");
+		dados.append(formatador.format(this.valorEmprestado));
+		
+		return dados.toString();
 	}
 	
 	
