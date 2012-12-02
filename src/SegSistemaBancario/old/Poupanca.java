@@ -13,7 +13,7 @@ public class Poupanca extends Conta{
 	public float getSaldo(){
 		if(super.deveCobrarTarifa()){
 			if(super.getSaldo() < TARIFA_CONSULTA)
-				throw new ExcecaoSaldoInsuficiente ("Você não possui saldo suficiente para consulta do saldo, e já ultrapassou o limite gratuito por mês.");
+				throw new ExcecaoSaldoInsuficiente("VocÃª nÃ£o possui saldo suficiente para consulta do saldo, e jÃ¡ ultrapassou o limite gratuito por mÃªs.");
 			super.sacar(TARIFA_CONSULTA);
 		}
 		this.quantidadeConsultas++;
@@ -28,7 +28,7 @@ public class Poupanca extends Conta{
 	
 	public void sacar (float saque){
 		if (saque > super.getSaldo() && quantidadeConsultas < QTDE_MAX_CONSULTAS)
-			throw new ExcecaoSaqueInvalido("Saldo insuficiente. Você só pode sacar "+formatador.format(getSaldo()));
+			throw new ExcecaoSaqueInvalido("Saldo insuficiente. VocÃª sÃ³ pode sacar "+formatador.format(getSaldo()));
 		
 		if (saque > super.getSaldo())
 			throw new ExcecaoSaqueInvalido("Saldo insuficiente. Consulte o seu saldo.");
@@ -36,6 +36,9 @@ public class Poupanca extends Conta{
 		setSaldo(super.getSaldo() - saque);
 		
 	}
+	
+	
+	
 	
 	public String listarDados(){
 		return super.listarDados();

@@ -19,7 +19,7 @@ public class Especial extends Corrente {
 	
 	public void sacar(float saque){
 		if(super.getSaldo()+LIMITE_PADRAO < saque)
-			throw new ExcecaoSaqueInvalido("Saldo insuficiente. VocÃª sÃ³ pode sacar "+formatador.format(super.getSaldo()+LIMITE_PADRAO));
+			throw new ExcecaoSaqueInvalido("Saldo insuficiente. Você só pode sacar "+formatador.format(super.getSaldo()+LIMITE_PADRAO));
 		
 		if(super.getSaldo() < saque){
 			this.valorEmprestado += saque - super.getSaldo();

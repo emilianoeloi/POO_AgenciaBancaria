@@ -1,6 +1,5 @@
 package SegSistemaBancario;
 
-@SuppressWarnings("serial")
 public class ExcecaoFaltaEspaco extends RuntimeException {
 
 

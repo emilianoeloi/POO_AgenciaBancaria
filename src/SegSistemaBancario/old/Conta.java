@@ -10,7 +10,7 @@ public abstract class Conta {
 	private float            saldo;
 	private byte             tipo;
 	private boolean          cobrarTarifa;
-	DecimalFormat            formatador = new DecimalFormat ("R$ #,##0.00");
+	DecimalFormat            formatador = new DecimalFormat ("R$ #,##0.##");
 	
 	public Conta(int numero, String proprietario, float saldo, byte tipo){
 		this.numero = numero;
@@ -22,7 +22,7 @@ public abstract class Conta {
 	
 	public void depositar (float valor){
 		if (valor < 0)
-			throw new ExcecaoValorNegativo("Você não pode entrar com valor de deposito negativo.");
+			throw new ExcecaoValorNegativo("VocÃª nÃ£o pode entrar com valor de deposito negativo.");
 		saldo += valor;
 	}
 	
@@ -51,27 +51,26 @@ public abstract class Conta {
 		
 		StringBuilder dados = new StringBuilder();
 		
-		dados.append("Número: ");
+		dados.append("NÃºmero: ");
 		dados.append(this.numero);
 		dados.append("\n");
-		dados.append("Proprietário: ");
+		dados.append("ProprietÃ¡rio: ");
 		dados.append(this.proprietario);
 		dados.append("\n");
 		dados.append("Saldo: ");
 		dados.append(formatador.format(this.saldo));
 		dados.append("\n");
 		dados.append("Tipo: ");
-		dados.append(tipoContaToString(this.tipo));
-		dados.append("\n");
+		dados.append(this.tipo);
 		
 		return dados.toString();
 	}
 	
 	public void sacar (float valor){
 		if (valor < 0)
-			throw new ExcecaoValorNegativo("Você não pode entrar com valor de saque negativo.");
+			throw new ExcecaoValorNegativo("VocÃª nÃ£o pode entrar com valor de saque negativo.");
 		if (valor > saldo)
-			throw new ExcecaoSaqueInvalido("Saldo insuficiente. Você só pode sacar "+formatador.format(saldo));
+			throw new ExcecaoSaqueInvalido("Saldo insuficiente. VocÃª sÃ³ pode sacar "+formatador.format(saldo));
 		saldo -= valor;
 	}
 	
@@ -87,17 +86,16 @@ public abstract class Conta {
 		this.tipo = tipo;
 	}
 	
-
 	private static String tipoContaToString (byte tipo){ 
 		switch(tipo){
 			case 1:
-				return "Poupança";
+				return "PoupanÃ§a";
 			case 2:
 				return "Corrente";
 			case 3:
 				return "Especial";
 			default:
-				return "Tipo de Conta Padrão";
+				return "Tipo de Conta PadrÃ£o";
 		}
 	}
 	
